@@ -1,4 +1,5 @@
-node_modules
-build
-npm-debug.log
+backend/node_modules
+backend/build
+backend/npm-debug.log
 .DS_Store
+.env
