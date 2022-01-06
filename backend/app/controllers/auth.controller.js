@@ -98,12 +98,11 @@ exports.signin = (req, res) => {
       for (let i = 0; i < user.roles.length; i++) {
         authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
       }
-      res.status(200).send({
-        id: user._id,
+      res.status(201).send({
         username: user.username,
         email: user.email,
         roles: authorities,
-        accessToken: token
+        access_token: token
       });
     });
 };

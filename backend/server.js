@@ -18,11 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to simple web application." });
-});
-require('./app/routes/auth.routes')(app);
-require('./app/routes/user.routes')(app);
+require('./app/routes/index.routes')(app);
 
 // Intialize Mongoose
 const db = require("./app/models");
@@ -45,6 +41,26 @@ const PORT = process.env.NODE_DOCKER_PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
+
+// Swagger
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Simple Web Application',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./app/routes/*.js'],
+};
+
+const openapiSpecification = swaggerJsdoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
+
+
 
 // Roles initialization 
 const Role = db.role;
